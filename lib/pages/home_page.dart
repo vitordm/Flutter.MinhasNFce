@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_minhas_nfce/fragments/nfce_list_fragment.dart';
+
+enum Menu {
+  Home,
+  ListaNFce,
+  QrCodes,
+  About,
+}
 
 class DrawerItem {
+  final Menu menu;
   final String title;
   final IconData icon;
-  DrawerItem(this.title, this.icon);
+  DrawerItem(this.menu, this.title, this.icon);
 }
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
 
-  final String title = 'Flutter MyMinhasNFc-e';
   final drawerItens = [
-    new DrawerItem("Fragment 1", Icons.adb),
-    new DrawerItem("Fragment 2", Icons.add_to_queue),
-    new DrawerItem("Fragment 3", Icons.info),
+    new DrawerItem(Menu.Home, "Home", Icons.apps),
+    new DrawerItem(Menu.ListaNFce, "NFc-e", Icons.format_list_numbered),
+    new DrawerItem(Menu.About, "Sobre", Icons.info),
   ];
 
   @override
@@ -21,46 +29,56 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  int _selectedDrawerIndex = 0;
+  Menu _menuSelecionado = Menu.Home;
+  String title = "Home";
 
-  _getDrawerItemWidget(int pos) {
-    switch (pos) {
-      /*
-      case 1:
-        return Fragment();
-        
-      */
+  _getDrawerItemWidget(Menu menu) {
+    this.title = "Home";
+
+    switch (menu) {
+      case Menu.Home:
+      case Menu.ListaNFce:
+        var fragment = NfceListFragment();
+        title = fragment.title;
+        return fragment;
       default:
         return Text('Error');
     }
   }
 
-  _onSelectItem(int index) {
+  _onSelectItem(Menu menu) {
     setState(() {
-      _selectedDrawerIndex = index;
+      _menuSelecionado = menu;
     });
     Navigator.of(context).pop(); // close the drawer
   }
 
   @override
   Widget build(BuildContext context) {
-
     var drawerItens = <Widget>[];
-    var i = 0;
-    for (var drawerItem in widget.drawerItens) {
+    for (var i = 0; i < widget.drawerItens.length; i++) {
+      var drawerItem = widget.drawerItens[i];
       drawerItens.add(ListTile(
-                leading: Icon(drawerItem.icon),
-                title: Text(drawerItem.title),
-                selected: i == _selectedDrawerIndex,
-                onTap: () => _onSelectItem(i),
-              ));
-              i++;
+        leading: Icon(drawerItem.icon),
+        title: Text(drawerItem.title),
+        selected: drawerItem.menu == _menuSelecionado,
+        onTap: () => _onSelectItem(drawerItem.menu),
+      ));
     }
 
+    var fragment = _getDrawerItemWidget(_menuSelecionado);
+    FloatingActionButton floatActionButton;
+    if (_menuSelecionado == Menu.Home) {
+      floatActionButton = FloatingActionButton(
+        onPressed: () => {},
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(this.title),
       ),
       drawer: new Drawer(
         child: Column(
@@ -73,14 +91,9 @@ class HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Center(
-        child: _getDrawerItemWidget(_selectedDrawerIndex)
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: Center(child: fragment),
+      floatingActionButton:
+          floatActionButton,
     );
   }
 }
