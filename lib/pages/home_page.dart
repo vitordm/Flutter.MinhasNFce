@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_minhas_nfce/fragments/nfce_list_fragment.dart';
+import 'package:flutter_minhas_nfce/pages/qr_code_page.dart';
 
 enum Menu {
   Home,
@@ -70,8 +71,10 @@ class HomePageState extends State<HomePage> {
     FloatingActionButton floatActionButton;
     if (_menuSelecionado == Menu.Home) {
       floatActionButton = FloatingActionButton(
-        onPressed: () => {},
-        tooltip: 'Increment',
+        onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => QrCodePage(null),
+            )),
+        tooltip: 'Nova NFc-e',
         child: Icon(Icons.add),
       );
     }
@@ -91,9 +94,8 @@ class HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Center(child: fragment),
-      floatingActionButton:
-          floatActionButton,
+      body: fragment,
+      floatingActionButton: floatActionButton,
     );
   }
 }
