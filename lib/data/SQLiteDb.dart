@@ -50,7 +50,7 @@ class SQLiteDb {
         'id integer primary key autoincrement not null ,'
         'razao_social text,cnpj text ,ie text ,endereco text )');
 
-    await db.execute('CREATE TABLE NFcItem ('
+    await db.execute('CREATE TABLE nfce_item ('
         'id integer primary key autoincrement not null ,'
         'codigo varchar, descricao varchar,qtde float,'
         'un varchar, valor_unitario float,'
@@ -61,6 +61,10 @@ class SQLiteDb {
         'qr_code text,'
         'sincronizado integer ,'
         'criado_em text, nfce_id integer )');
+
+    await db.execute('CREATE INDEX "qr_code_nfce_id" on "qr_code"("nfce_id")');
+    await db.execute('CREATE INDEX "nfce_item_nfce_id" on "nfce_item"("nfce_id")');
+    await db.execute('CREATE INDEX "nfce_comercio_id" on "nfce"("comercio_id")');
 
   }
 }
