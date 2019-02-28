@@ -48,7 +48,7 @@ class NfceListFragmentState extends State<NfceListFragment> {
         nfc.numeroSerie,
         style: _biggerFont,
       ),
-      subtitle: Text(nfc.nFceComercio.toString()),
+      subtitle: Text(nfc.comercio.toString()),
       trailing: new Icon(Icons.attachment),
       leading: new Icon(Icons.attachment, color: Colors.red,),
       onTap: () {

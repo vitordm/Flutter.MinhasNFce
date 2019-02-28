@@ -2,6 +2,8 @@ class QrCode {
   int id;
   String qrCode;
   DateTime criadoEm;
+  bool sincronizado = false;
+  int nfceId;
 
   QrCode() {
     criadoEm = DateTime.now();
