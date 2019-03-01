@@ -23,6 +23,8 @@ dependencies:
   sqflite: any
   path_provider: any
   intl: ^0.15.7
+  barcode_scan: ^0.0.8
+  qr_flutter: ^2.0.0+51
 
 
 dev_dependencies:

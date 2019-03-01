@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_minhas_nfce/models/qr_code.dart';
 import 'package:flutter_minhas_nfce/services/qr_code_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'dart:async';
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter/services.dart';
 
 class QrCodePage extends StatefulWidget {
   final QrCode qrCode;
@@ -44,7 +47,7 @@ class QrCodePageState extends State<QrCodePage> {
             icon: Icon(Icons.check),
             tooltip: 'Salvar Registro',
             onPressed: () => {
-                _salvarQrCode()
+                _saveQrCode()
             },
           )
         ],
@@ -75,7 +78,9 @@ class QrCodePageState extends State<QrCodePage> {
                     style: TextStyle(fontSize: 16, color: Colors.white)),
               ),
               color: Colors.lightBlue,
-              onPressed: () => {},
+              onPressed: () => {
+                _scanQrCode()
+              },
             )
           ],
         ),
@@ -87,7 +92,7 @@ class QrCodePageState extends State<QrCodePage> {
     Navigator.of(context).pop();
   }
 
-  void _salvarQrCode() async {
+  void _saveQrCode() async {
     if (qrCode == null) {
       qrCode = QrCode();
     }
@@ -98,5 +103,24 @@ class QrCodePageState extends State<QrCodePage> {
     }
 
     moveBack(context);
+  }
+
+  void _scanQrCode() async {
+    try {
+      String barcode = await BarcodeScanner.scan();
+      setState(() {
+        controllerQrCode.text = barcode;
+      });
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
+        debugPrint('Unknown error: CameraAccessDenied');
+      } else {
+        debugPrint('Unknown error: $e');
+      }
+    } on FormatException{
+      debugPrint('null (User returned using the "back"-button before scanning anything. Result)');
+    } catch (e) {
+      debugPrint(e);
+    }
   }
 }

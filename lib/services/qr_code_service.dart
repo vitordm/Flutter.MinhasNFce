@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_minhas_nfce/models/qr_code.dart';
-import 'package:flutter_minhas_nfce/services/BaseService.dart';
+import 'package:flutter_minhas_nfce/services/base_service.dart';
 
 class QrCodeService extends BaseService {
   

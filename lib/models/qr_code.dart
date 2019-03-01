@@ -8,6 +8,7 @@ class QrCode {
   QrCode(
       {this.id, this.qrCode, this.criadoEm, this.sincronizado, this.nfceId}) {
     if (criadoEm == null) criadoEm = DateTime.now();
+    if (sincronizado == null) sincronizado = false;
   }
 
   QrCode.withId(this.id, this.qrCode, [this.criadoEm]);

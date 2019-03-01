@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_minhas_nfce/models/nfce.dart';
-import 'package:flutter_minhas_nfce/services/BaseService.dart';
+import 'package:flutter_minhas_nfce/services/base_service.dart';
 
 class NFceService extends BaseService {
   Future<List<NFce>> list() async {
