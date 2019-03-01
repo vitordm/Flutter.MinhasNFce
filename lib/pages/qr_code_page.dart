@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_minhas_nfce/models/qr_code.dart';
 import 'package:flutter_minhas_nfce/services/qr_code_service.dart';

@@ -5,15 +5,9 @@ class QrCode {
   bool sincronizado = false;
   int nfceId;
 
-  QrCode() {
-    criadoEm = DateTime.now();
-  }
-  QrCode.fromMap(Map<String, dynamic> map) {
-    id = map['id'];
-    qrCode = map['qr_code'];
-    criadoEm = DateTime.parse(map['criado_em']);
-    sincronizado = map['sincronizado'];
-    nfceId = map['nfce_id'];
+  QrCode(
+      {this.id, this.qrCode, this.criadoEm, this.sincronizado, this.nfceId}) {
+    if (criadoEm == null) criadoEm = DateTime.now();
   }
 
   QrCode.withId(this.id, this.qrCode, [this.criadoEm]);
@@ -21,15 +15,19 @@ class QrCode {
     if (this.criadoEm == null) criadoEm = DateTime.now();
   }
 
-  Map<String, dynamic> toMap() {
-    var map = Map<String, dynamic>();
-    map['id'] = id;
-    map['qr_code'] = qrCode;
-    map['criado_em'] = criadoEm.toIso8601String();
-    map['sincronizado'] = sincronizado;
-    map['nfce_id'] = nfceId;
-    return map;
-  }
+  factory QrCode.fromMap(Map<String, dynamic> map) => QrCode(
+        id: map['id'],
+        qrCode: map['qr_code'],
+        criadoEm: DateTime.parse(map['criado_em']),
+        sincronizado: map['sincronizado'] == 1 ? true : false,
+        nfceId: map['nfce_id'],
+      );
 
-
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'qr_code': qrCode,
+        "criado_em": criadoEm.toIso8601String(),
+        'sincronizado': sincronizado ? 1 : 0,
+        'nfce_id': nfceId,
+      };
 }

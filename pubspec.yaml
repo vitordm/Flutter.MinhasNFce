@@ -22,6 +22,7 @@ dependencies:
   font_awesome_flutter: ^8.4.0
   sqflite: any
   path_provider: any
+  intl: ^0.15.7
 
 
 dev_dependencies:

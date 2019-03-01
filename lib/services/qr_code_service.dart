@@ -15,7 +15,7 @@ class QrCodeService extends BaseService {
   Future<List<QrCode>> list() async {
     var database = await this.db.database;
     var list  = await database.query('qr_code');
-    return list.map((qrcode) => QrCode.fromMap(qrcode));
+    return list.isNotEmpty ? list.map((qrcode) => QrCode.fromMap(qrcode)).toList() : [];
   }
 
 }
