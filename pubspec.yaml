@@ -25,6 +25,7 @@ dependencies:
   intl: ^0.15.7
   barcode_scan: ^0.0.8
   qr_flutter: ^2.0.0+51
+  vitor_myparser_nfce: ^1.0.0
 
 
 dev_dependencies:
