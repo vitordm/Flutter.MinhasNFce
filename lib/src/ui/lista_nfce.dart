@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:unicorndial/unicorndial.dart';
 import '../blocs/lista_nfce_bloc.dart';
 import '../models/nfce.dart';
 
@@ -31,26 +32,40 @@ class _ListaNfceState extends State<ListaNfce> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: StreamBuilder(
-          stream: widget.bloc.nfces,
-          builder: (context, AsyncSnapshot<List<NFce>> snapshot) {
-            if (snapshot.hasData) {
-              return _buildList(snapshot.data);
-            }
-            else if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            }
-            return Center(child: CircularProgressIndicator());
-          }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
-        tooltip: 'Nova NFc-e',
-        child: Icon(FontAwesomeIcons.qrcode),
-      ),
-    );
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: StreamBuilder(
+            stream: widget.bloc.nfces,
+            builder: (context, AsyncSnapshot<List<NFce>> snapshot) {
+              if (snapshot.hasData) {
+                return _buildList(snapshot.data);
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              return Center(child: CircularProgressIndicator());
+            }),
+        floatingActionButton: UnicornDialer(
+          parentButton: Icon(Icons.add),
+          orientation: UnicornOrientation.VERTICAL,
+          childButtons: [
+            UnicornButton(
+              hasLabel: true,
+              labelText: 'Escanear',
+              labelHasShadow: true,
+              labelColor: Colors.black,
+              currentButton: FloatingActionButton(
+                heroTag: 'Nova NFc-e',
+                backgroundColor: Colors.blueGrey,
+                mini: true,
+                child: Icon(FontAwesomeIcons.qrcode, size: 20,),
+                onPressed: () {
+                  print("Escaner qr-code!");
+                },
+              ),
+            )
+          ],
+        ));
   }
 
   _buildList(List<NFce> data) {

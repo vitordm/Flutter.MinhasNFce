@@ -9,7 +9,7 @@ class ListaNfceBloc extends BlocBase {
   final NfceRepository _nfceRepository = NfceRepository(DatabaseProvider());
   PublishSubject<List<NFce>> _nfceFetcher;
 
-  Observable<List<NFce>> get nfces => _nfceFetcher.stream;
+  Observable<List<NFce>> get nfces => _nfceFetcher?.stream;
 
   init() {
     _nfceFetcher = PublishSubject<List<NFce>>();
