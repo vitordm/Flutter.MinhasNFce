@@ -1,9 +1,12 @@
+import 'package:inject/inject.dart';
+
 import '../../models/nfce.dart';
 import '../database_provider.dart';
 
 class NfceRepository {
   final DatabaseProvider _databaseProvider;
 
+  @provide
   NfceRepository(this._databaseProvider);
 
   Future<List<NFce>> list() async {

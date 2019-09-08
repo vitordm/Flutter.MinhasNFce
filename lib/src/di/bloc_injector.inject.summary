@@ -1,0 +1,45 @@
+{
+  "asset": "asset:flutter_minhas_nfce/lib/src/di/bloc_injector.dart",
+  "summary": {
+    "injector": [
+      {
+        "name": "BlocInjector",
+        "providers": [
+          {
+            "name": "app",
+            "kind": "getter",
+            "injectedType": {
+              "lookupKey": {
+                "root": "asset:flutter_minhas_nfce/lib/src/app.dart#App",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            "singleton": false,
+            "asynchronous": false,
+            "dependencies": []
+          },
+          {
+            "name": "listaNfceBloc",
+            "kind": "getter",
+            "injectedType": {
+              "lookupKey": {
+                "root": "asset:flutter_minhas_nfce/lib/src/blocs/lista_nfce_bloc.dart#ListaNfceBloc",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            "singleton": false,
+            "asynchronous": false,
+            "dependencies": []
+          }
+        ],
+        "modules": [
+          "asset:flutter_minhas_nfce/lib/src/di/bloc_module.dart#BlocModule"
+        ]
+      }
+    ],
+    "module": [],
+    "injectable": []
+  }
+}

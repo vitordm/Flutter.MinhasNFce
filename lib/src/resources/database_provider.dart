@@ -1,21 +1,24 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-
 import 'migrations/base_migration.dart';
 import 'migrations/migration_version_1.dart';
+import 'dart:async';
+import 'dart:io';
 
 const DATABASE_VERSION = 1;
 
 class DatabaseProvider {
-  static DatabaseProvider _instance;
+  //static DatabaseProvider _instance;
   static Database _database;
 
   final List<int> _databaseVersions = [1];
   Map<int, BaseMigration> _databaseMigrations = Map<int, BaseMigration>();
 
+  DatabaseProvider(){
+    _databaseMigrations[1] = MigrationVersion1();
+  }
+
+  /*
   DatabaseProvider._createInstance(){
     _databaseMigrations[1] = MigrationVersion1();
   }
@@ -25,7 +28,7 @@ class DatabaseProvider {
       _instance = DatabaseProvider._createInstance();
     }
     return _instance;
-  }
+  }*/
 
   Future<Database> get database async {
     if (_database == null) {

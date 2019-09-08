@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:inject/inject.dart';
 import 'package:unicorndial/unicorndial.dart';
 import '../blocs/lista_nfce_bloc.dart';
 import '../models/nfce.dart';
 
 class ListaNfce extends StatefulWidget {
   final title = "Minhas NFc-e";
-  final ListaNfceBloc bloc = ListaNfceBloc();
+  @provide
+  final ListaNfceBloc bloc;
 
-  ListaNfce({Key key}) : super(key: key);
+  ListaNfce({Key key, this.bloc}) : super(key: key);
 
   _ListaNfceState createState() => _ListaNfceState();
 }
@@ -61,6 +63,7 @@ class _ListaNfceState extends State<ListaNfce> {
                 child: Icon(FontAwesomeIcons.qrcode, size: 20,),
                 onPressed: () {
                   print("Escaner qr-code!");
+                  Navigator.pushNamed(context, '/qr_code');
                 },
               ),
             )

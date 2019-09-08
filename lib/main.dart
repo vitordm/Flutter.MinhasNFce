@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_minhas_nfce/src/di/container_d_i.dart';
 
-import 'src/app.dart';
-
-void main() {
-  return runApp(App());
+void main() async {
+  await ContainerDI.initialize();
+  //var container = await BlocInjector.create(BlocModule());
+  var container = ContainerDI.container;
+  return runApp(container.app);
 }
 
 /*

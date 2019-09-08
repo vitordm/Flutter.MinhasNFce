@@ -1,15 +1,16 @@
+import 'package:inject/inject.dart';
 import 'package:rxdart/rxdart.dart';
-
 import '../resources/repository/nfce_repository.dart';
-import '../resources/database_provider.dart';
 import 'bloc_base.dart';
 import '../models/nfce.dart';
 
 class ListaNfceBloc extends BlocBase {
-  final NfceRepository _nfceRepository = NfceRepository(DatabaseProvider());
+  final NfceRepository _nfceRepository;
   PublishSubject<List<NFce>> _nfceFetcher;
-
   Observable<List<NFce>> get nfces => _nfceFetcher?.stream;
+
+  @provide
+  ListaNfceBloc(this._nfceRepository);
 
   init() {
     _nfceFetcher = PublishSubject<List<NFce>>();
