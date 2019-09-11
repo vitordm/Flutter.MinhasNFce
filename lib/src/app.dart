@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_minhas_nfce/src/blocs/lista_nfce_bloc.dart';
-import 'package:flutter_minhas_nfce/src/ui/qr_code.dart';
+
 import 'package:inject/inject.dart';
+import './blocs/lista_nfce_bloc.dart';
+import './blocs/qr_code_bloc.dart';
 import './ui/lista_nfce.dart';
+import './ui/qr_code.dart';
 import 'di/container_d_i.dart';
 
 class App extends StatelessWidget {
@@ -20,7 +22,8 @@ class App extends StatelessWidget {
           return ListaNfce(key: key,  bloc: nfceBloc);
         },
         '/qr_code': (context) {
-          return QrCode(key: key);
+          QrCodeBloc qrCodeBloc = ContainerDI.container.qrCodeBloc;
+          return QrCode(key: key, bloc: qrCodeBloc);
         } 
       },
     );

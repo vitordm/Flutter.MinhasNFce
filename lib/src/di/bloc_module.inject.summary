@@ -57,6 +57,28 @@
             ]
           },
           {
+            "name": "qrCodeRepository",
+            "kind": "method",
+            "injectedType": {
+              "lookupKey": {
+                "root": "asset:flutter_minhas_nfce/lib/src/resources/repository/qr_code_repository.dart#QrCodeRepository",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            "singleton": true,
+            "asynchronous": false,
+            "dependencies": [
+              {
+                "lookupKey": {
+                  "root": "asset:flutter_minhas_nfce/lib/src/resources/database_provider.dart#DatabaseProvider",
+                  "qualifier": null
+                },
+                "isProvider": false
+              }
+            ]
+          },
+          {
             "name": "listaNfceBloc",
             "kind": "method",
             "injectedType": {
@@ -72,6 +94,57 @@
               {
                 "lookupKey": {
                   "root": "asset:flutter_minhas_nfce/lib/src/resources/repository/nfce_repository.dart#NfceRepository",
+                  "qualifier": null
+                },
+                "isProvider": false
+              }
+            ]
+          },
+          {
+            "name": "qrCodeService",
+            "kind": "method",
+            "injectedType": {
+              "lookupKey": {
+                "root": "asset:flutter_minhas_nfce/lib/src/services/qr_code_service.dart#QrCodeService",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            "singleton": false,
+            "asynchronous": false,
+            "dependencies": [
+              {
+                "lookupKey": {
+                  "root": "asset:flutter_minhas_nfce/lib/src/resources/repository/nfce_repository.dart#NfceRepository",
+                  "qualifier": null
+                },
+                "isProvider": false
+              },
+              {
+                "lookupKey": {
+                  "root": "asset:flutter_minhas_nfce/lib/src/resources/repository/qr_code_repository.dart#QrCodeRepository",
+                  "qualifier": null
+                },
+                "isProvider": false
+              }
+            ]
+          },
+          {
+            "name": "qrCodeBloc",
+            "kind": "method",
+            "injectedType": {
+              "lookupKey": {
+                "root": "asset:flutter_minhas_nfce/lib/src/blocs/qr_code_bloc.dart#QrCodeBloc",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            "singleton": false,
+            "asynchronous": false,
+            "dependencies": [
+              {
+                "lookupKey": {
+                  "root": "asset:flutter_minhas_nfce/lib/src/services/qr_code_service.dart#QrCodeService",
                   "qualifier": null
                 },
                 "isProvider": false
