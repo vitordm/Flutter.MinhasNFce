@@ -6,8 +6,8 @@ import './blocs/lista_qr_code_.bloc.dart';
 import './ui/lista_nfce.dart';
 import './ui/qr_code.dart';
 import './ui/lista_qr_code.dart';
+import './ui/home.dart';
 import 'di/container_d_i.dart';
-
 class App extends StatelessWidget {
   @provide
   App() : super();
@@ -19,6 +19,9 @@ class App extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) {
+          return Home(key: key);
+        },
+        '/lista_nfce': (context) {
           ListaNfceBloc nfceBloc = ContainerDI.container.listaNfceBloc;
           return ListaNfce(key: key,  bloc: nfceBloc);
         },
