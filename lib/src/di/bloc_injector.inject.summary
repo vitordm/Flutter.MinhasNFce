@@ -46,6 +46,20 @@
             "singleton": false,
             "asynchronous": false,
             "dependencies": []
+          },
+          {
+            "name": "listaQrCodeBloc",
+            "kind": "getter",
+            "injectedType": {
+              "lookupKey": {
+                "root": "asset:flutter_minhas_nfce/lib/src/blocs/lista_qr_code_.bloc.dart#ListaQrCodeBloc",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            "singleton": false,
+            "asynchronous": false,
+            "dependencies": []
           }
         ],
         "modules": [

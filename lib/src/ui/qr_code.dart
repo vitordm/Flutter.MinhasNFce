@@ -28,6 +28,7 @@ class _QrCodeState extends State<QrCode> {
   void dispose() {
     super.dispose();
     widget.bloc.dispose();
+    controllerQrCode.dispose();
   }
 
   @override

@@ -66,6 +66,19 @@ class _ListaNfceState extends State<ListaNfce> {
                   Navigator.pushNamed(context, '/qr_code');
                 },
               ),
+            ), UnicornButton(
+              hasLabel: true,
+              labelText: 'Lista QrCodes',
+              labelColor: Colors.blueGrey,
+              currentButton: FloatingActionButton(
+                heroTag: 'Lista QrCode',
+                backgroundColor: Colors.indigo,
+                mini: true,
+                child: Icon(FontAwesomeIcons.list, size: 20,),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/lista_qr_code');
+                },
+              ),
             )
           ],
         ));

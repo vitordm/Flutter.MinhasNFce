@@ -19,4 +19,10 @@ class QrCodeRepository {
   Future<QrCode> atualizar(QrCode qrCode) {
     throw Exception("Method not implemented!");
   }
+
+  Future<List<QrCode>> list() async {
+    var database = await this._databaseProvider.database;
+    var list = await database.query('qr_code');
+    return list.map((nfce) => QrCode.fromMap(nfce)).toList();
+  }
 }
