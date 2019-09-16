@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:inject/inject.dart';
-import 'package:unicorndial/unicorndial.dart';
 import '../blocs/lista_nfce_bloc.dart';
 import '../models/nfce.dart';
 
@@ -47,38 +47,40 @@ class _ListaNfceState extends State<ListaNfce> {
               }
               return Center(child: CircularProgressIndicator());
             }),
-        floatingActionButton: UnicornDialer(
-          parentButton: Icon(Icons.add),
-          orientation: UnicornOrientation.VERTICAL,
-          childButtons: [
-            UnicornButton(
-              hasLabel: true,
-              labelText: 'Escanear',
-              labelHasShadow: true,
-              labelColor: Colors.black,
-              currentButton: FloatingActionButton(
-                heroTag: 'Nova NFc-e',
-                backgroundColor: Colors.blueGrey,
-                mini: true,
-                child: Icon(FontAwesomeIcons.qrcode, size: 20,),
-                onPressed: () {
-                  print("Escaner qr-code!");
-                  Navigator.pushNamed(context, '/qr_code');
-                },
-              ),
-            ), UnicornButton(
-              hasLabel: true,
-              labelText: 'Lista QrCodes',
-              labelColor: Colors.blueGrey,
-              currentButton: FloatingActionButton(
-                heroTag: 'Lista QrCode',
-                backgroundColor: Colors.indigo,
-                mini: true,
-                child: Icon(FontAwesomeIcons.list, size: 20,),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/lista_qr_code');
-                },
-              ),
+        floatingActionButton: SpeedDial(
+          animatedIcon: AnimatedIcons.menu_close,
+          animatedIconTheme: IconThemeData(size: 22.0),
+          closeManually: false,
+          curve: Curves.bounceIn,
+          onOpen: () => print('OPENING DIAL'),
+          onClose: () => print('DIAL CLOSED'),
+          tooltip: 'Menu',
+          heroTag: 'menu-hero-tag',
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Colors.white,
+          elevation: 8.0,
+          shape: CircleBorder(),
+          children: [
+            SpeedDialChild(
+                child: Icon(FontAwesomeIcons.listAlt),
+                backgroundColor: Colors.deepOrange,
+                label: 'Qr Codes',
+                labelStyle: TextStyle(fontSize: 18.0),
+                onTap: () => Navigator.of(context).pushNamed('/lista_qr_code')),
+            SpeedDialChild(
+              child: Icon(FontAwesomeIcons.qrcode),
+              backgroundColor: Colors.green,
+              label: 'Novo QrCode',
+              labelStyle: TextStyle(fontSize: 18.0),
+              onTap: () => Navigator.of(context).pushNamed('/qr_code'),
+            ),
+            SpeedDialChild(
+              child: Icon(FontAwesomeIcons.info, size: 18,),
+              backgroundColor: Colors.grey,
+              label: 'Sobre',
+              labelStyle: TextStyle(fontSize: 18.0),
+              onTap: () => Navigator.of(context).pushNamed('/sobre'),
+              
             )
           ],
         ));

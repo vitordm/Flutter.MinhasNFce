@@ -25,4 +25,9 @@ class QrCodeRepository {
     var list = await database.query('qr_code');
     return list.map((nfce) => QrCode.fromMap(nfce)).toList();
   }
+
+  Future<void> delete(QrCode qrCode) async {
+    var database = await this._databaseProvider.database;
+    await database.delete("qr_code", where: "id = ?", whereArgs: [qrCode.id]);
+  }
 }

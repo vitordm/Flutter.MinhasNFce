@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
 import '../blocs/qr_code_bloc.dart';
+import '../models/qr_code.dart' as Model;
 
 class QrCode extends StatefulWidget {
   final QrCodeBloc bloc;
@@ -19,9 +20,6 @@ class _QrCodeState extends State<QrCode> {
   void initState() {
     super.initState();
     controllerQrCode = TextEditingController();
-    controllerQrCode.addListener(() {
-      widget.bloc.onQrCodeTextChanged(controllerQrCode.text);
-    });
   }
 
   @override
@@ -54,7 +52,6 @@ class _QrCodeState extends State<QrCode> {
               child: TextField(
                 maxLines: 5,
                 controller: controllerQrCode,
-                onChanged: widget.bloc.onQrCodeTextChanged,
                 decoration: InputDecoration(
                     hintText: 'Digite o QrCode',
                     labelText: 'QrCode',
@@ -125,13 +122,13 @@ class _QrCodeState extends State<QrCode> {
   }
 
   void moveBack(BuildContext context) {
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
   }
 
   void _salvarQrCode() {
     setState(() async {
       if (controllerQrCode.text.length == 0) return;
-      await widget.bloc.salvarSincronizar();
+      widget.bloc.salvarSincronizar.add(Model.QrCode.withQrCode(controllerQrCode.text));
       moveBack(context);
     });
   }
@@ -139,7 +136,7 @@ class _QrCodeState extends State<QrCode> {
   void _apenasSalvar() async {
     setState(() async {
       if (controllerQrCode.text.length == 0) return;
-      await widget.bloc.salvar();
+      widget.bloc.salvarQrCode.add(Model.QrCode.withQrCode(controllerQrCode.text));
       moveBack(context);
     });
   }

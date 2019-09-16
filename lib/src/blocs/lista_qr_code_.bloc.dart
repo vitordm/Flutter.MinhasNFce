@@ -1,25 +1,29 @@
+import 'dart:async';
+
 import 'package:inject/inject.dart';
-import 'package:rxdart/rxdart.dart';
 import '../models/qr_code.dart';
 import '../resources/repository/qr_code_repository.dart';
 import 'bloc_base.dart';
 
 class ListaQrCodeBloc extends BlocBase {
   final QrCodeRepository _qrCodeRepository;
-  PublishSubject<List<QrCode>> _qrCodeFetcher;
-  Observable<List<QrCode>> get qrCodes => _qrCodeFetcher?.stream;
+  final StreamController<List<QrCode>> _qrCodeFetcher = StreamController<List<QrCode>>();
+  Stream<List<QrCode>> get qrCodes => _qrCodeFetcher.stream;
 
   @provide
   ListaQrCodeBloc(this._qrCodeRepository);
 
   init() {
-    _qrCodeFetcher = PublishSubject<List<QrCode>>();
   }
 
   fetchQrCodes() async {
     var qrCodes = await _qrCodeRepository.list();
     _qrCodeFetcher.sink.add(qrCodes);
   }
+
+  Future<void> deletar(QrCode qrCode) async {
+    await _qrCodeRepository.delete(qrCode);
+  } 
 
   @override
   void dispose() {

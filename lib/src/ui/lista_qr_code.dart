@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../models/qr_code.dart';
 import '../blocs/lista_qr_code_.bloc.dart';
 
@@ -10,7 +11,6 @@ class ListaQrCode extends StatefulWidget {
 }
 
 class _ListaQrCodeState extends State<ListaQrCode> {
-
   @override
   void initState() {
     super.initState();
@@ -30,17 +30,31 @@ class _ListaQrCodeState extends State<ListaQrCode> {
       appBar: AppBar(
         title: Text("Qr Codes"),
       ),
-      body: StreamBuilder(
-        stream: widget.bloc.qrCodes,
-        initialData: List<QrCode>(),
-        builder: (BuildContext context, AsyncSnapshot<List<QrCode>> snapshot) {
-          if (snapshot.hasData) {
-            return _buildList(snapshot.data);
-          } else if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          }
-          return Center(child: CircularProgressIndicator());
+      body: RefreshIndicator(
+        child: StreamBuilder(
+          stream: widget.bloc.qrCodes,
+          initialData: List<QrCode>(),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<QrCode>> snapshot) {
+            if (snapshot.hasData) {
+              return _buildList(snapshot.data);
+            } else if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            }
+            return Center(child: CircularProgressIndicator());
+          },
+        ),
+        onRefresh: () {
+          setState(() {
+            widget.bloc.fetchQrCodes();
+          });
+          return null;
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(FontAwesomeIcons.qrcode),
+        backgroundColor: Colors.green,
+        onPressed: () => Navigator.of(context).pushNamed('/qr_code'),
       ),
     );
   }
@@ -61,20 +75,35 @@ class _ListaQrCodeState extends State<ListaQrCode> {
   }
 
   _buildRow(QrCode qrCode) {
-    return ListTile(
-      title: Text(
-        qrCode.qrCode ?? '',
-        style: const TextStyle(fontSize: 12),
-      ),
-      subtitle: Text("Id: ${qrCode.id}"),
-      trailing: new Icon(Icons.attachment),
-      leading: new Icon(
-        Icons.attachment,
-        color: Colors.red,
-      ),
-      onTap: () {
-        setState(() {});
+    return Dismissible(
+      direction: DismissDirection.endToStart,
+      key: Key(qrCode.id.toString()),
+      background: Container(
+          alignment: AlignmentDirectional.centerEnd,
+          color: Colors.red,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+            child: Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+          )),
+      onDismissed: (DismissDirection direction) async {
+        await widget.bloc.deletar(qrCode);
+        setState(() {
+          widget.bloc.fetchQrCodes();
+        });
       },
+      child: ListTile(
+          title: Text(
+            qrCode.qrCode ?? '',
+            style: const TextStyle(fontSize: 12),
+          ),
+          subtitle: Text("Id: ${qrCode.id}"),
+          leading: new Icon(
+            FontAwesomeIcons.qrcode,
+            color: qrCode.sincronizado ? Colors.blueAccent : Colors.grey,
+          )),
     );
   }
 }
