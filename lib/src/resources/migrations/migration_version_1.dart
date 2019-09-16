@@ -6,10 +6,19 @@ class MigrationVersion1 implements BaseMigration {
   @override
   Future<void> migrate(Database db) async {
     await db.execute(
-        'CREATE TABLE nfce ( id integer primary key autoincrement not null ,'
-        'numero integer,serie integer,data_nfce text,valor_total float,'
-        'valor_descontos float,forma_pagamento text,valor_pago float,'
-        'consumidor_identificado integer,documento_consumidor text,'
+        'CREATE TABLE nfce ( '
+        'id integer primary key autoincrement not null ,'
+        'numero text,'
+        'serie text,'
+        'data_nfce text,'
+        'chave_acesso text,'
+        'protocolo_autorizacao text,'
+        'consumidor_identificado integer,'
+        'documento_consumidor text,'
+        'valor_total float,'
+        'valor_desconto float,'
+        'forma_pagamento text,'
+        'valor_pago float,'
         'comercio_id integer )');
 
     await db.execute('CREATE TABLE nfce_comercio ('

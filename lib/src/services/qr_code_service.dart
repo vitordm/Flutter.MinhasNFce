@@ -27,7 +27,7 @@ class QrCodeService {
       var myParserNFceFactory = MyParserNFceFactory(qrCode.qrCode);
       var downloadNfce = await myParserNFceFactory.make();
       if (downloadNfce !=null) {
-        nfce = NFce.fromMap(downloadNfce.toMap());
+        nfce = NFce.fromMapSync(downloadNfce.toMap());
         nfce = await _nfceRepository.insert(nfce);
       }
     } catch(e) {

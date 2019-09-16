@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:inject/inject.dart';
+import '../ui/qr_code.dart';
 import '../blocs/lista_nfce_bloc.dart';
 import '../models/nfce.dart';
 
@@ -72,7 +73,7 @@ class _ListaNfceState extends State<ListaNfce> {
               backgroundColor: Colors.green,
               label: 'Novo QrCode',
               labelStyle: TextStyle(fontSize: 18.0),
-              onTap: () => Navigator.of(context).pushNamed('/qr_code'),
+              onTap: () => Navigator.of(context).pushNamed('/qr_code', arguments: QrCodeModoSalvar.SALVAR_SINCRONIZAR),
             ),
             SpeedDialChild(
               child: Icon(FontAwesomeIcons.info, size: 18,),

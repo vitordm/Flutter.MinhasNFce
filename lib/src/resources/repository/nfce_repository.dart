@@ -1,3 +1,4 @@
+import 'package:flutter_minhas_nfce/src/models/nfce_comercio.dart';
 import 'package:inject/inject.dart';
 
 import '../../models/nfce.dart';
@@ -12,7 +13,14 @@ class NfceRepository {
   Future<List<NFce>> list() async {
     var database = await this._databaseProvider.database;
     var list = await database.query('nfce');
-    return list.map((nfce) => NFce.fromMap(nfce)).toList();
+    
+    var nfces =  list.map((nfce) => NFce.fromMap(nfce)).toList();
+    for(NFce nfce in nfces) {
+      var comercio = await database.query('nfce_comercio', limit: 1, where: 'id = ?', whereArgs: [ nfce.comercioId]);
+      nfce.comercio = NFceComercio.fromMap(comercio.first);
+    }
+
+    return nfces;
   }
 
   Future<NFce> insert(NFce nfce) async {
@@ -24,7 +32,12 @@ class NfceRepository {
       nfce.comercioId = nfce.comercio.id;
     }
 
-    var id = await database.insert("nfce", nfce.toMap());
+    var nfceMap = nfce.toMap();
+
+    nfceMap.remove("itens");
+    nfceMap.remove("comercio");
+
+    var id = await database.insert("nfce", nfceMap);
     nfce.id = id;
     for (var item in nfce.itens) {
       item.nfceId = nfce.id;

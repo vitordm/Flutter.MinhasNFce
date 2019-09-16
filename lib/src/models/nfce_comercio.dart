@@ -15,6 +15,13 @@ class NFceComercio {
     endereco = map['endereco'];
   }
 
+  NFceComercio.fromMapSync(map) {
+    razaoSocial = map['razao_social'];
+    cnpj = map['cnpj'];
+    ie = map['ie'];
+    endereco = map['endereco'];
+  }
+
   @override
   String toString() {
     return razaoSocial;

@@ -19,6 +19,15 @@ class NFceItem {
     nfceId = map['nfce_id'];
   }
 
+  NFceItem.fromMapSync(Map<String, dynamic> map) {
+    codigo = map['codigo'];
+    descricao = map['descricao'];
+    qtde = map['qtde'];
+    un = map['un'];
+    valorUnitario = map['valorUnitario'];
+    valorTotal = map['valorTotal'];
+  }
+
   toMap() {
     var map = new Map<String, dynamic>();
     map['id'] = id;

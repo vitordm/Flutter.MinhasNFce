@@ -6,9 +6,12 @@ import 'package:flutter/services.dart';
 import '../blocs/qr_code_bloc.dart';
 import '../models/qr_code.dart' as Model;
 
+enum QrCodeModoSalvar { SALVAR, SALVAR_SINCRONIZAR }
+
 class QrCode extends StatefulWidget {
   final QrCodeBloc bloc;
-  QrCode({Key key, this.bloc}) : super(key: key);
+  final QrCodeModoSalvar modoSalvar;
+  QrCode({Key key, this.bloc, this.modoSalvar}) : super(key: key);
 
   _QrCodeState createState() => _QrCodeState();
 }
@@ -39,7 +42,12 @@ class _QrCodeState extends State<QrCode> {
           IconButton(
             icon: Icon(Icons.check),
             tooltip: 'Salvar Registro',
-            onPressed: () => {_salvarQrCode()},
+            onPressed: () => {
+              if (widget.modoSalvar == QrCodeModoSalvar.SALVAR)
+                _apenasSalvar()
+              else
+                _salvarQrCode()
+            },
           )
         ],
       ),
@@ -96,7 +104,7 @@ class _QrCodeState extends State<QrCode> {
                   },
                 ),
               ),
-              visible: controllerQrCode.text.length > 0,
+              visible: false, // controllerQrCode.text.length > 0,
             ),
             Visibility(
               child: Padding(
@@ -113,7 +121,7 @@ class _QrCodeState extends State<QrCode> {
                       _salvarQrCode();
                     },
                   )),
-              visible: controllerQrCode.text.length > 0,
+              visible: false, //controllerQrCode.text.length > 0,
             )
           ],
         ),
@@ -128,7 +136,8 @@ class _QrCodeState extends State<QrCode> {
   void _salvarQrCode() {
     setState(() async {
       if (controllerQrCode.text.length == 0) return;
-      widget.bloc.salvarSincronizar.add(Model.QrCode.withQrCode(controllerQrCode.text));
+      widget.bloc.salvarSincronizar
+          .add(Model.QrCode.withQrCode(controllerQrCode.text));
       moveBack(context);
     });
   }
@@ -136,7 +145,8 @@ class _QrCodeState extends State<QrCode> {
   void _apenasSalvar() async {
     setState(() async {
       if (controllerQrCode.text.length == 0) return;
-      widget.bloc.salvarQrCode.add(Model.QrCode.withQrCode(controllerQrCode.text));
+      widget.bloc.salvarQrCode
+          .add(Model.QrCode.withQrCode(controllerQrCode.text));
       moveBack(context);
     });
   }
