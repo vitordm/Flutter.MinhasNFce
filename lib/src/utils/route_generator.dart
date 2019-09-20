@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../blocs/lista_nfce_bloc.dart';
-import '../blocs/lista_qr_code_.bloc.dart';
+import '../blocs/lista_qr_code.bloc.dart';
 import '../blocs/qr_code_bloc.dart';
 import '../di/container_d_i.dart';
-import '../ui/lista_nfce.dart';
-import '../ui/lista_qr_code.dart';
-import '../ui/qr_code.dart';
-import '../ui/sobre.dart';
+import '../ui/lista_nfce_page.dart';
+import '../ui/lista_qr_code_page.dart';
+import '../ui/qr_code_page.dart';
+import '../ui/sobre_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -17,23 +17,23 @@ class RouteGenerator {
       case '/':
         return MaterialPageRoute(builder: (_) {
           ListaNfceBloc nfceBloc = ContainerDI.container.listaNfceBloc;
-          return ListaNfce(bloc: nfceBloc);
+          return ListaNfcePage(bloc: nfceBloc);
         });
       case '/lista_qr_code':
         return MaterialPageRoute(builder: (_) {
           ListaQrCodeBloc listaQrCodeBloc =
               ContainerDI.container.listaQrCodeBloc;
-          return ListaQrCode(bloc: listaQrCodeBloc);
+          return ListaQrCodePage(bloc: listaQrCodeBloc);
         });
       case '/qr_code':
         return MaterialPageRoute(builder: (_) {
           QrCodeBloc qrCodeBloc = ContainerDI.container.qrCodeBloc;
           var modoSalvar = (args is QrCodeModoSalvar) ? args : QrCodeModoSalvar.SALVAR;
-          return QrCode(bloc: qrCodeBloc, modoSalvar: modoSalvar);
+          return QrCodePage(bloc: qrCodeBloc, modoSalvar: modoSalvar);
         });
       case '/sobre':
       default:
-        return MaterialPageRoute(builder: (_) => Sobre());
+        return MaterialPageRoute(builder: (_) => SobrePage());
     }
   }
 }

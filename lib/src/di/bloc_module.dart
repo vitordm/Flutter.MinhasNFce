@@ -2,7 +2,7 @@ import 'package:http/http.dart';
 import 'package:inject/inject.dart';
 import '../blocs/lista_nfce_bloc.dart';
 import '../blocs/qr_code_bloc.dart';
-import '../blocs/lista_qr_code_.bloc.dart';
+import '../blocs/lista_qr_code.bloc.dart';
 import '../resources/database_provider.dart';
 import '../resources/repository/nfce_repository.dart';
 import '../resources/repository/qr_code_repository.dart';

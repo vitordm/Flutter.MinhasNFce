@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../models/qr_code.dart';
-import '../blocs/lista_qr_code_.bloc.dart';
+import '../blocs/lista_qr_code.bloc.dart';
 
-class ListaQrCode extends StatefulWidget {
+class ListaQrCodePage extends StatefulWidget {
   final ListaQrCodeBloc bloc;
-  ListaQrCode({Key key, this.bloc}) : super(key: key);
+  
+  ListaQrCodePage({Key key, this.bloc}) : super(key: key);
 
-  _ListaQrCodeState createState() => _ListaQrCodeState();
+  _ListaQrCodePageState createState() => _ListaQrCodePageState();
 }
 
-class _ListaQrCodeState extends State<ListaQrCode> {
+class _ListaQrCodePageState extends State<ListaQrCodePage> {
   @override
   void initState() {
     super.initState();

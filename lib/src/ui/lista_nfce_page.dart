@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:inject/inject.dart';
-import '../ui/qr_code.dart';
+import '../ui/qr_code_page.dart';
 import '../blocs/lista_nfce_bloc.dart';
 import '../models/nfce.dart';
 
-class ListaNfce extends StatefulWidget {
+class ListaNfcePage extends StatefulWidget {
   final title = "Minhas NFc-e";
   @provide
   final ListaNfceBloc bloc;
 
-  ListaNfce({Key key, this.bloc}) : super(key: key);
+  ListaNfcePage({Key key, this.bloc}) : super(key: key);
 
-  _ListaNfceState createState() => _ListaNfceState();
+  _ListaNfcePageState createState() => _ListaNfcePageState();
 }
 
-class _ListaNfceState extends State<ListaNfce> {
+class _ListaNfcePageState extends State<ListaNfcePage> {
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override

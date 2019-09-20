@@ -8,7 +8,7 @@ import 'dart:async' as _i7;
 import '../app.dart' as _i8;
 import '../blocs/lista_nfce_bloc.dart' as _i9;
 import '../blocs/qr_code_bloc.dart' as _i10;
-import '../blocs/lista_qr_code_.bloc.dart' as _i11;
+import '../blocs/lista_qr_code.bloc.dart' as _i11;
 
 class BlocInjector$Injector implements _i1.BlocInjector {
   BlocInjector$Injector._(this._blocModule);
