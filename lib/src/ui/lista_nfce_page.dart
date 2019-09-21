@@ -73,7 +73,13 @@ class _ListaNfcePageState extends State<ListaNfcePage> {
               backgroundColor: Colors.green,
               label: 'Novo QrCode',
               labelStyle: TextStyle(fontSize: 18.0),
-              onTap: () => Navigator.of(context).pushNamed('/qr_code', arguments: QrCodeModoSalvar.SALVAR_SINCRONIZAR),
+              onTap: () {
+                  Navigator.of(context)
+                  .pushNamed('/qr_code', arguments: QrCodeModoSalvar.SALVAR_SINCRONIZAR)
+                  .then((_) {
+                    widget.bloc.fetchNfces();
+                  });
+              } 
             ),
             SpeedDialChild(
               child: Icon(FontAwesomeIcons.info, size: 18,),

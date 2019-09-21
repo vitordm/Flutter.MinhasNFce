@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:inject/inject.dart';
 import 'package:rxdart/rxdart.dart';
 import '../resources/repository/nfce_repository.dart';
@@ -6,8 +8,8 @@ import '../models/nfce.dart';
 
 class ListaNfceBloc extends BlocBase {
   final NfceRepository _nfceRepository;
-  PublishSubject<List<NFce>> _nfceFetcher;
-  Observable<List<NFce>> get nfces => _nfceFetcher?.stream;
+  StreamController<List<NFce>> _nfceFetcher;
+  Stream<List<NFce>> get nfces => _nfceFetcher.stream;
 
   @provide
   ListaNfceBloc(this._nfceRepository);
