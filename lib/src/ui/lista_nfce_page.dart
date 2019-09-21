@@ -109,14 +109,13 @@ class _ListaNfcePageState extends State<ListaNfcePage> {
         style: _biggerFont,
       ),
       subtitle: Text(nfc.comercio.toString()),
+      /*
       trailing: new Icon(Icons.attachment),
       leading: new Icon(
         Icons.attachment,
         color: Colors.red,
-      ),
-      onTap: () {
-        setState(() {});
-      },
+      ),*/
+      onTap: () => Navigator.of(context).pushNamed('/nfce', arguments: nfc),
     );
   }
 }

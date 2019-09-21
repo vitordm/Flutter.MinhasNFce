@@ -1,7 +1,7 @@
-import 'package:flutter_minhas_nfce/src/models/nfce_comercio.dart';
 import 'package:inject/inject.dart';
-
 import '../../models/nfce.dart';
+import '../../models/nfce_comercio.dart';
+import '../../models/nfce_item.dart';
 import '../database_provider.dart';
 
 class NfceRepository {
@@ -18,6 +18,9 @@ class NfceRepository {
     for(NFce nfce in nfces) {
       var comercio = await database.query('nfce_comercio', limit: 1, where: 'id = ?', whereArgs: [ nfce.comercioId]);
       nfce.comercio = NFceComercio.fromMap(comercio.first);
+
+      var itens = await database.query('nfce_item', where: 'nfce_id = ?', whereArgs: [nfce.id]);
+      nfce.itens.addAll(itens.map((i) => NFceItem.fromMap(i)).toList());
     }
 
     return nfces;
