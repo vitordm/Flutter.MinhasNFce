@@ -43,6 +43,6 @@ class BlocModule {
       QrCodeBloc(qrCodeService);
 
   @provide
-  ListaQrCodeBloc listaQrCodeBloc(QrCodeRepository repository) =>
-      ListaQrCodeBloc(repository);
+  ListaQrCodeBloc listaQrCodeBloc(QrCodeRepository repository, QrCodeService qrCodeService) =>
+      ListaQrCodeBloc(repository, qrCodeService);
 }

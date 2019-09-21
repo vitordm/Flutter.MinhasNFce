@@ -67,27 +67,37 @@ class _ListaNfcePageState extends State<ListaNfcePage> {
                 backgroundColor: Colors.deepOrange,
                 label: 'Qr Codes',
                 labelStyle: TextStyle(fontSize: 18.0),
-                onTap: () => Navigator.of(context).pushNamed('/lista_qr_code')),
-            SpeedDialChild(
-              child: Icon(FontAwesomeIcons.qrcode),
-              backgroundColor: Colors.green,
-              label: 'Novo QrCode',
-              labelStyle: TextStyle(fontSize: 18.0),
-              onTap: () {
-                  Navigator.of(context)
-                  .pushNamed('/qr_code', arguments: QrCodeModoSalvar.SALVAR_SINCRONIZAR)
-                  .then((_) {
-                    widget.bloc.fetchNfces();
+                onTap: () {
+                  Navigator.of(context).pushNamed('/lista_qr_code').then((_) {
+                    setState(() {
+                      widget.bloc.fetchNfces();
+                    });
                   });
-              } 
-            ),
+                }),
             SpeedDialChild(
-              child: Icon(FontAwesomeIcons.info, size: 18,),
+                child: Icon(FontAwesomeIcons.qrcode),
+                backgroundColor: Colors.green,
+                label: 'Novo QrCode',
+                labelStyle: TextStyle(fontSize: 18.0),
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamed('/qr_code',
+                          arguments: QrCodeModoSalvar.SALVAR_SINCRONIZAR)
+                      .then((_) {
+                    setState(() {
+                      widget.bloc.fetchNfces();
+                    });
+                  });
+                }),
+            SpeedDialChild(
+              child: Icon(
+                FontAwesomeIcons.info,
+                size: 18,
+              ),
               backgroundColor: Colors.grey,
               label: 'Sobre',
               labelStyle: TextStyle(fontSize: 18.0),
               onTap: () => Navigator.of(context).pushNamed('/sobre'),
-              
             )
           ],
         ));
@@ -109,19 +119,40 @@ class _ListaNfcePageState extends State<ListaNfcePage> {
   }
 
   _buildRow(NFce nfc) {
-    return ListTile(
-      title: Text(
-        nfc.numeroSerie,
-        style: _biggerFont,
-      ),
-      subtitle: Text(nfc.comercio.toString()),
-      /*
-      trailing: new Icon(Icons.attachment),
+    return Dismissible(
+      direction: DismissDirection.endToStart,
+      key: Key(UniqueKey().toString()),
+      background: Container(
+          alignment: AlignmentDirectional.centerEnd,
+          color: Colors.red,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+            child: Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+          )),
+      onDismissed: (DismissDirection direction) {
+        setState(() async {
+          await widget.bloc.deletar(nfc);
+          widget.bloc.fetchNfces();
+        });
+      },
+      child: ListTile(
+        title: Text(
+          nfc.numeroSerie,
+          style: _biggerFont,
+        ),
+        subtitle: Text(nfc.comercio.toString()),
+        leading: Icon(FontAwesomeIcons.fileContract),
+        /*
+        trailing: new Icon(FontAwesomeIcons.fileContract),
       leading: new Icon(
         Icons.attachment,
         color: Colors.red,
       ),*/
-      onTap: () => Navigator.of(context).pushNamed('/nfce', arguments: nfc),
+        onTap: () => Navigator.of(context).pushNamed('/nfce', arguments: nfc),
+      ),
     );
   }
 }

@@ -44,8 +44,8 @@ class BlocInjector$Injector implements _i1.BlocInjector {
   _i5.QrCodeRepository _createQrCodeRepository() =>
       _singletonQrCodeRepository ??=
           _blocModule.qrCodeRepository(_createDatabaseProvider());
-  _i11.ListaQrCodeBloc _createListaQrCodeBloc() =>
-      _blocModule.listaQrCodeBloc(_createQrCodeRepository());
+  _i11.ListaQrCodeBloc _createListaQrCodeBloc() => _blocModule.listaQrCodeBloc(
+      _createQrCodeRepository(), _createQrCodeService());
   @override
   _i8.App get app => _createApp();
   @override

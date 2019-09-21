@@ -29,6 +29,8 @@ class QrCodeService {
       if (downloadNfce !=null) {
         nfce = NFce.fromMapSync(downloadNfce.toMap());
         nfce = await _nfceRepository.insert(nfce);
+        qrCode.sincronizado = true;
+        await _qrCodeRepository.atualizar(qrCode);
       }
     } catch(e) {
       print(e);

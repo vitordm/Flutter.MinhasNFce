@@ -5,7 +5,7 @@ import '../blocs/lista_qr_code.bloc.dart';
 
 class ListaQrCodePage extends StatefulWidget {
   final ListaQrCodeBloc bloc;
-  
+
   ListaQrCodePage({Key key, this.bloc}) : super(key: key);
 
   _ListaQrCodePageState createState() => _ListaQrCodePageState();
@@ -21,8 +21,8 @@ class _ListaQrCodePageState extends State<ListaQrCodePage> {
 
   @override
   void dispose() {
-    widget.bloc.dispose();
     super.dispose();
+    widget.bloc.dispose();
   }
 
   @override
@@ -45,17 +45,18 @@ class _ListaQrCodePageState extends State<ListaQrCodePage> {
             return Center(child: CircularProgressIndicator());
           },
         ),
-        onRefresh: () {
-          setState(() {
-            widget.bloc.fetchQrCodes();
-          });
-          return null;
-        },
+        onRefresh: () async {
+        return await _onRefresh();
+        } ,
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(FontAwesomeIcons.qrcode),
         backgroundColor: Colors.green,
-        onPressed: () => Navigator.of(context).pushNamed('/qr_code'),
+        onPressed: () {
+          Navigator.of(context).pushNamed('/qr_code').then((_) {
+            widget.bloc.fetchQrCodes();
+          });
+        },
       ),
     );
   }
@@ -104,7 +105,35 @@ class _ListaQrCodePageState extends State<ListaQrCodePage> {
           leading: new Icon(
             FontAwesomeIcons.qrcode,
             color: qrCode.sincronizado ? Colors.blueAccent : Colors.grey,
-          )),
+          ),
+          onLongPress: () {
+            if (!qrCode.sincronizado) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                        title: Text('Deseja sincronizar?'),
+                        content: Text('Isso irá baixar informações da NFc-e'),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('Não'),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                          FlatButton(
+                              child: Text('Sim'),
+                              onPressed: () async {
+                                await widget.bloc.sincronizar(qrCode);
+                                Navigator.of(context).pop();
+                              }),
+                        ],
+                      ));
+            }
+          }),
     );
+  }
+
+  Future<Null> _onRefresh() async {
+    await Future.delayed(Duration(milliseconds: 500));
+    widget.bloc.fetchQrCodes();
+    return null;
   }
 }

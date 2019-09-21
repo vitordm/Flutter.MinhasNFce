@@ -49,4 +49,11 @@ class NfceRepository {
 
     return nfce;
   }
+
+  Future<void> delete(NFce nfce) async {
+    var database = await this._databaseProvider.database;
+    await database.delete("nfce_item", where: "nfce_id = ?", whereArgs: [nfce.id]);
+    await database.delete("nfce", where: "id = ?", whereArgs: [nfce.id]);
+    await database.delete("nfce_comercio", where: "id = ?", whereArgs: [nfce.comercioId]);
+  }
 }

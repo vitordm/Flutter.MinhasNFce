@@ -52,7 +52,7 @@
             "kind": "getter",
             "injectedType": {
               "lookupKey": {
-                "root": "asset:flutter_minhas_nfce/lib/src/blocs/lista_qr_code_.bloc.dart#ListaQrCodeBloc",
+                "root": "asset:flutter_minhas_nfce/lib/src/blocs/lista_qr_code.bloc.dart#ListaQrCodeBloc",
                 "qualifier": null
               },
               "isProvider": false

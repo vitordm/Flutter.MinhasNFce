@@ -20,12 +20,18 @@ class ListaNfceBloc extends BlocBase {
 
   fetchNfces() async {
     var nfces = await _nfceRepository.list();
+    if (_nfceFetcher == null)
+      init();
     _nfceFetcher.sink.add(nfces);
   }
 
   @override
   void dispose() {
     _nfceFetcher.close();
+  }
+
+  Future<void> deletar(NFce nfce) async {
+    await _nfceRepository.delete(nfce);
   }
 }
 /* final List<NFce> nfces = List.from([
