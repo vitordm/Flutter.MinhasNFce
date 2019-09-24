@@ -1,4 +1,4 @@
-package com.example.flutter_minhas_nfce
+package br.com.vitorgaudencio.flutter_minhas_nfce
 
 import android.os.Bundle
 

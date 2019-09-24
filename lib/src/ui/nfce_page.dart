@@ -1,4 +1,3 @@
-import 'package:bidirectional_scroll_view/bidirectional_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/nfce.dart';
@@ -10,11 +9,7 @@ class NfcePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cnpj = '';
-    var cnpjMatch = RegExp(r"^\d\d").stringMatch(nfce.comercio.cnpj);
-    if (cnpjMatch != null && cnpjMatch.length > 0) {
-      cnpj = nfce.comercio.cnpj;
-    }
+    final cnpj = nfce.comercio.cnpj;
 
     var dataNfce = new DateFormat('dd/MM/yyyy HH:mm:ss').format(nfce.dataNfce);
     var valorPago =
@@ -97,7 +92,7 @@ class NfcePage extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                child: buildTableItens(),
+                child: buildTableItens2(),
               ),
             )
           ],
@@ -108,26 +103,37 @@ class NfcePage extends StatelessWidget {
     List<DataRow> itens = nfce.itens
         .map((item) => DataRow(
               cells: <DataCell>[
-                DataCell(Text(item.codigo),
+                DataCell(
+                    Text(
+                      item.codigo,
+                      textAlign: TextAlign.center,
+                    ),
+                    showEditIcon: false,
+                    placeholder: false),
+                DataCell(Text(item.descricao, textAlign: TextAlign.left),
                     showEditIcon: false, placeholder: false),
-                DataCell(Text(item.descricao),
+                DataCell(Text(item.qtde.toString(), textAlign: TextAlign.right),
                     showEditIcon: false, placeholder: false),
-                DataCell(Text(item.qtde.toString()),
+                DataCell(Text(item.un, textAlign: TextAlign.center),
                     showEditIcon: false, placeholder: false),
-                DataCell(Text(item.un),
-                    showEditIcon: false, placeholder: false),
-                DataCell(Text(item.valorUnitario.toString()),
-                    showEditIcon: false, placeholder: false),
-                DataCell(Text(item.valorTotal.toString()),
-                    showEditIcon: false, placeholder: false),
+                DataCell(
+                    Text(item.valorUnitario.toString(),
+                        textAlign: TextAlign.right),
+                    showEditIcon: false,
+                    placeholder: false),
+                DataCell(
+                    Text(item.valorTotal.toString(),
+                        textAlign: TextAlign.right),
+                    showEditIcon: false,
+                    placeholder: false),
               ],
             ))
         .toList();
 
     var table = DataTable(
-      columnSpacing: 5,
-      dataRowHeight: 30,
-      headingRowHeight: 30,
+      columnSpacing: 3,
+      dataRowHeight: 25,
+      headingRowHeight: 25,
       horizontalMargin: 8,
       columns: <DataColumn>[
         DataColumn(
@@ -171,51 +177,94 @@ class NfcePage extends StatelessWidget {
       rows: itens,
     );
 
+    /*
     return BidirectionalScrollViewPlugin(
       child: table,
       scrollDirection: ScrollDirection.both,
-    );
+    );*/
 
-    /*
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: table,
       ),
-    );*/
+    );
   }
 
   Widget buildTableItens2() {
+    final textStyleHeader = TextStyle(fontSize: 8, fontWeight: FontWeight.bold);
+
     var rows = <TableRow>[
       TableRow(children: <Widget>[
-        TableCell(child: Text("Código")),
-        TableCell(child: Text("Descrição")),
-        TableCell(child: Text("Qtd.")),
-        TableCell(child: Text("UN")),
-        TableCell(child: Text("Valor")),
-        TableCell(child: Text("Total")),
+        TableCell(
+            child: Container(
+          color: Colors.grey,
+          child: Text("Código",
+              style: textStyleHeader, textAlign: TextAlign.center),
+        )),
+        TableCell(
+            child: Container(
+                color: Colors.grey,
+                child: Text("Descrição",
+                    style: textStyleHeader, textAlign: TextAlign.center))),
+        TableCell(
+            child: Container(
+                color: Colors.grey,
+                child: Text("Qtd.",
+                    style: textStyleHeader, textAlign: TextAlign.center))),
+        TableCell(
+            child: Container(
+                color: Colors.grey,
+                child: Text("UN",
+                    style: textStyleHeader, textAlign: TextAlign.center))),
+        TableCell(
+            child: Container(
+                color: Colors.grey,
+                child: Text("Valor",
+                    style: textStyleHeader, textAlign: TextAlign.center))),
+        TableCell(
+            child: Container(
+                color: Colors.grey,
+                child: Text("Total",
+                    style: textStyleHeader, textAlign: TextAlign.center))),
       ])
     ];
 
+    final textStyle = TextStyle(fontSize: 10);
     for (var item in nfce.itens) {
       rows.add(TableRow(children: <Widget>[
-        TableCell(child: Text(item.codigo)),
-        TableCell(child: Text(item.descricao)),
-        TableCell(child: Text(item.qtde.toString())),
-        TableCell(child: Text(item.un)),
-        TableCell(child: Text(item.valorUnitario.toString())),
-        TableCell(child: Text(item.valorTotal.toString())),
+        TableCell(
+            child: Text(item.codigo,
+                style: TextStyle(fontSize: 8), textAlign: TextAlign.center)),
+        TableCell(
+            child: Text(item.descricao,
+                style: TextStyle(fontSize: 8), textAlign: TextAlign.left)),
+        TableCell(
+            child: Text(item.qtde.toString(),
+                style: textStyle, textAlign: TextAlign.right)),
+        TableCell(
+            child:
+                Text(item.un, style: textStyle, textAlign: TextAlign.center)),
+        TableCell(
+            child: Text(item.valorUnitario.toString(),
+                style: textStyle, textAlign: TextAlign.right)),
+        TableCell(
+            child: Text(item.valorTotal.toString(),
+                style: textStyle, textAlign: TextAlign.right)),
       ]));
     }
 
     var table = Table(
-      border: TableBorder.all(),
+      border: TableBorder.all(color: Colors.grey, width: 0.5),
       children: rows,
     );
 
     return SingleChildScrollView(
-      child: table,
-    );
+        scrollDirection: Axis.vertical,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(3, 0, 3, 5),
+          child: table,
+        ));
   }
 }
