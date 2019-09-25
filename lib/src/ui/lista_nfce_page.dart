@@ -20,10 +20,13 @@ class _ListaNfcePageState extends State<ListaNfcePage> {
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     widget.bloc.init();
-    widget.bloc.fetchNfces();
+    /**
+     * Não sei pq, mas em modo release foi o unico modo de funcionar!
+     */
+    await _onRefresh();
   }
 
   @override
@@ -38,69 +41,23 @@ class _ListaNfcePageState extends State<ListaNfcePage> {
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: StreamBuilder(
-            stream: widget.bloc.nfces,
-            builder: (context, AsyncSnapshot<List<NFce>> snapshot) {
-              if (snapshot.hasData) {
-                return _buildList(snapshot.data);
-              } else if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              }
-              return Center(child: CircularProgressIndicator());
-            }),
-        floatingActionButton: SpeedDial(
-          animatedIcon: AnimatedIcons.menu_close,
-          animatedIconTheme: IconThemeData(size: 22.0),
-          closeManually: false,
-          curve: Curves.bounceIn,
-          onOpen: () => print('OPENING DIAL'),
-          onClose: () => print('DIAL CLOSED'),
-          tooltip: 'Menu',
-          heroTag: 'menu-hero-tag',
-          backgroundColor: Theme.of(context).primaryColor,
-          foregroundColor: Colors.white,
-          elevation: 8.0,
-          shape: CircleBorder(),
-          children: [
-            SpeedDialChild(
-                child: Icon(FontAwesomeIcons.listAlt),
-                backgroundColor: Colors.deepOrange,
-                label: 'Qr Codes',
-                labelStyle: TextStyle(fontSize: 18.0),
-                onTap: () {
-                  Navigator.of(context).pushNamed('/lista_qr_code').then((_) {
-                    setState(() {
-                      widget.bloc.fetchNfces();
-                    });
-                  });
-                }),
-            SpeedDialChild(
-                child: Icon(FontAwesomeIcons.qrcode),
-                backgroundColor: Colors.green,
-                label: 'Novo QrCode',
-                labelStyle: TextStyle(fontSize: 18.0),
-                onTap: () {
-                  Navigator.of(context)
-                      .pushNamed('/qr_code',
-                          arguments: QrCodeModoSalvar.SALVAR_SINCRONIZAR)
-                      .then((_) {
-                    setState(() {
-                      widget.bloc.fetchNfces();
-                    });
-                  });
-                }),
-            SpeedDialChild(
-              child: Icon(
-                FontAwesomeIcons.info,
-                size: 18,
-              ),
-              backgroundColor: Colors.grey,
-              label: 'Sobre',
-              labelStyle: TextStyle(fontSize: 18.0),
-              onTap: () => Navigator.of(context).pushNamed('/sobre'),
-            )
-          ],
-        ));
+        body: RefreshIndicator(
+          child: StreamBuilder(
+              stream: widget.bloc.nfces,
+              initialData: List<NFce>(),
+              builder: (context, AsyncSnapshot<List<NFce>> snapshot) {
+                if (snapshot.hasData) {
+                  return _buildList(snapshot.data);
+                } else if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+                return Center(child: CircularProgressIndicator());
+              }),
+          onRefresh: () async {
+            return await _onRefresh();
+          },
+        ),
+        floatingActionButton: _floatingActionButton());
   }
 
   _buildList(List<NFce> data) {
@@ -154,5 +111,67 @@ class _ListaNfcePageState extends State<ListaNfcePage> {
         onTap: () => Navigator.of(context).pushNamed('/nfce', arguments: nfc),
       ),
     );
+  }
+
+  _floatingActionButton() {
+    return SpeedDial(
+      animatedIcon: AnimatedIcons.menu_close,
+      animatedIconTheme: IconThemeData(size: 22.0),
+      closeManually: false,
+      curve: Curves.bounceIn,
+      onOpen: () => print('OPENING DIAL'),
+      onClose: () => print('DIAL CLOSED'),
+      tooltip: 'Menu',
+      heroTag: 'menu-hero-tag',
+      backgroundColor: Theme.of(context).primaryColor,
+      foregroundColor: Colors.white,
+      elevation: 8.0,
+      shape: CircleBorder(),
+      children: [
+        SpeedDialChild(
+            child: Icon(FontAwesomeIcons.listAlt),
+            backgroundColor: Colors.deepOrange,
+            label: 'Qr Codes',
+            labelStyle: TextStyle(fontSize: 18.0),
+            onTap: () {
+              Navigator.of(context).pushNamed('/lista_qr_code').then((_) {
+                setState(() {
+                  widget.bloc.fetchNfces();
+                });
+              });
+            }),
+        SpeedDialChild(
+            child: Icon(FontAwesomeIcons.qrcode),
+            backgroundColor: Colors.green,
+            label: 'Novo QrCode',
+            labelStyle: TextStyle(fontSize: 18.0),
+            onTap: () {
+              Navigator.of(context)
+                  .pushNamed('/qr_code',
+                      arguments: QrCodeModoSalvar.SALVAR_SINCRONIZAR)
+                  .then((_) {
+                setState(() {
+                  widget.bloc.fetchNfces();
+                });
+              });
+            }),
+        SpeedDialChild(
+          child: Icon(
+            FontAwesomeIcons.info,
+            size: 18,
+          ),
+          backgroundColor: Colors.grey,
+          label: 'Sobre',
+          labelStyle: TextStyle(fontSize: 18.0),
+          onTap: () => Navigator.of(context).pushNamed('/sobre'),
+        )
+      ],
+    );
+  }
+
+  Future<Null> _onRefresh() async {
+    await Future.delayed(Duration(milliseconds: 500));
+    widget.bloc.fetchNfces();
+    return null;
   }
 }

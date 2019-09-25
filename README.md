@@ -16,4 +16,12 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 
+```
+Gerar Injeção de dependencia
 flutter packages pub run build_runner build
+```
+
+```
+Gerar Apks
+flutter build apk --split-per-abi
+```
